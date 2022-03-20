@@ -130,10 +130,11 @@ class Interface:
 
     def _create(self, namespace: Namespace) -> None:
         ip('link', 'add', self.name, 'type', 'wireguard')
-        ip('link', 'set', self.name, 'netns', namespace.name)
+        
 
     def _configure_wireguard(self, namespace: Namespace) -> None:
         wg('set', self.name, 'listen-port', self.listen_port, netns=namespace.name)
+        ip('link', 'set', self.name, 'netns', namespace.name)
         wg('set', self.name, 'fwmark', self.fwmark, netns=namespace.name)
         wg('set', self.name, 'private-key', '/dev/stdin', stdin=self.private_key, netns=namespace.name)
 
